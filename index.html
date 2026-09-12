@@ -1,10 +1,4 @@
-from pathlib import Path
-import zipfile
-
-site = Path("/mnt/data/studentclutch_mun")
-site.mkdir(exist_ok=True)
-
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -24,9 +18,38 @@ section{padding:88px 0}.head{max-width:650px;margin-bottom:38px}.head h2{font-si
 .committees{background:var(--sage)}.commgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.comm{background:var(--paper);border:1px solid var(--line);padding:28px;position:relative;min-height:235px}.commno{font-family:"Space Grotesk";font-weight:700;color:var(--gold);font-size:13px}.comm h3{font-size:34px;margin:8px 0 2px}.comm small{text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:var(--muted);font-size:10px}.comm p{color:var(--muted);margin:16px 0 0}.comm:nth-child(2){border-top:4px solid #8b4d45}.comm:nth-child(3){border-top:4px solid #8b4d45}.comm:nth-child(4){border-top:4px solid #68608b}.comm:nth-child(5){border-top:4px solid #425f8d}.comm:nth-child(6){border-top:4px solid var(--green)}
 .applications{background:var(--navy);color:var(--cream)}.applications .head p{color:rgba(244,241,233,.7)}.appgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.app{background:var(--paper);color:var(--ink);padding:28px;border-radius:4px;display:flex;flex-direction:column;min-height:310px}.app .label{text-transform:uppercase;letter-spacing:2px;font-size:10px;font-weight:700;color:var(--green)}.app h3{font-size:28px;line-height:1.05;margin:12px 0}.app p{color:var(--muted);margin:0 0 22px}.app .btn{margin-top:auto;text-align:center;background:var(--navy);color:#fff}.app .btn:hover{background:var(--navy2)}
 .about{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}.about h2{font-size:48px;line-height:1;margin:0;letter-spacing:-2px}.about p{color:var(--muted);font-size:17px}.manifesto{font-family:Georgia,serif;font-size:30px;line-height:1.22;border-top:1px solid #aaa79e;padding-top:20px}.pillrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}.pill{border:1px solid var(--line);padding:8px 12px;border-radius:30px;font-size:12px;font-weight:700}
-.formsection{background:#e8e5dc}.formwrap{max-width:820px}.formcard{background:var(--paper);border:1px solid var(--line);padding:32px}.formcard h3{font-size:32px;margin:0 0 5px}.formcard>p{color:var(--muted);margin-top:0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field.full{grid-column:1/-1}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:12px 13px;border:1px solid #c9c7bf;border-radius:3px;background:#fff;font:inherit;color:var(--ink)}.field textarea{min-height:110px;resize:vertical}.checkrow{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--muted);margin-top:18px}.checkrow input{margin-top:4px}.submit{margin-top:20px;background:var(--navy);color:#fff;border:0;padding:14px 20px;font:700 14px "DM Sans";border-radius:4px;cursor:pointer}.formnote{font-size:11px;color:var(--muted);margin-top:10px}
+.formsection{background:#e8e5dc;border-top:1px solid var(--line)}
+.formwrap{max-width:900px}
+.formcard{background:var(--paper);border:1px solid var(--line);padding:36px}
+.formcard h3{font-size:34px;margin:0 0 6px}
+.formcard>p{color:var(--muted);margin-top:0}
+.formgroup{border:0;border-top:1px solid var(--line);padding:26px 0 0;margin:30px 0 0}
+.formgroup legend{padding:0 14px 0 0;font-family:"Space Grotesk";font-weight:700;font-size:18px;color:var(--navy)}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field.full{grid-column:1/-1}
+.field label,.field .fieldlabel{display:block;font-size:12px;font-weight:700;margin-bottom:7px;color:var(--ink)}
+.field input,.field select,.field textarea{width:100%;padding:13px 14px;border:1px solid #c9c7bf;border-radius:4px;background:#fff;font:inherit;color:var(--ink);outline:none;transition:border-color .15s,box-shadow .15s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(31,111,92,.10)}
+.field textarea{min-height:120px;resize:vertical}
+.field small{display:block;margin-top:6px;color:var(--muted);font-size:11px}
+.choicegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.choice{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);background:#fff;border-radius:4px;font-size:13px}
+.choice input{width:auto;margin:3px 0 0}
+.skillgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.checkrow{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--muted);margin-top:22px}
+.checkrow input{width:auto;margin-top:4px}
+.submitrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:22px}
+.submit{background:var(--navy);color:#fff;border:0;padding:14px 22px;font:700 14px "DM Sans";border-radius:4px;cursor:pointer}
+.submit:hover{background:var(--navy2)}
+.submit:disabled{opacity:.6;cursor:not-allowed}
+.status{font-size:13px;color:var(--muted)}
+.status.ok{color:var(--green);font-weight:700}
+.status.err{color:#9b3e35;font-weight:700}
+.formnote{font-size:11px;color:var(--muted);margin-top:12px}
+.req{color:#a14b3f}
+.filehint{font-size:11px;color:var(--muted);margin-top:6px}
 footer{background:#0c1729;color:#dce2dc;padding:48px 0 25px}.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}.foot p{color:rgba(220,226,220,.62);max-width:420px;margin:10px 0}.foot a{color:#dce2dc}.copyright{border-top:1px solid rgba(255,255,255,.12);margin-top:35px;padding-top:20px;color:rgba(220,226,220,.48);font-size:12px}
-@media(max-width:820px){.navlinks{display:none}.infogrid,.commgrid,.appgrid,.about,.formgrid{grid-template-columns:1fr}.infoitem{border-left:0;border-top:1px solid var(--line)}.infoitem:first-child{border-top:0}.hero h1{letter-spacing:-3px}.head h2,.about h2{font-size:39px}.field.full{grid-column:auto}}
+@media(max-width:820px){.navlinks{display:none}.infogrid,.commgrid,.appgrid,.about,.formgrid,.choicegrid,.skillgrid{grid-template-columns:1fr}.infoitem{border-left:0;border-top:1px solid var(--line)}.infoitem:first-child{border-top:0}.hero h1{letter-spacing:-3px}.head h2,.about h2{font-size:39px}.field.full{grid-column:auto}}
 </style>
 </head>
 <body>
@@ -70,57 +93,262 @@ footer{background:#0c1729;color:#dce2dc;padding:48px 0 25px}.foot{display:flex;j
 </div></div></section>
 
 <section class="formsection" id="delegate-form"><div class="wrap formwrap"><div class="formcard">
-<div class="eyebrow">01 · Delegate</div><h3>Delegate Registration</h3><p>Fill this out to express your interest in participating.</p>
-<form onsubmit="submitDemo(event,'Delegate registration')"><div class="formgrid">
-<div class="field"><label>Full name *</label><input required name="name"></div><div class="field"><label>School *</label><input required name="school"></div>
-<div class="field"><label>Class / Grade *</label><input required name="grade"></div><div class="field"><label>Email *</label><input required type="email" name="email"></div>
-<div class="field"><label>WhatsApp / Phone *</label><input required name="phone"></div><div class="field"><label>MUN experience</label><select name="experience"><option>First MUN</option><option>1–3 MUNs</option><option>4–10 MUNs</option><option>10+ MUNs</option></select></div>
-<div class="field"><label>First committee preference *</label><select required name="committee"><option>UNGA</option><option>UNHRC</option><option>AIPPM</option><option>UNCSW</option><option>UNSC</option><option>UNEP</option></select></div><div class="field"><label>Second committee preference</label><select name="committee2"><option>UNGA</option><option>UNHRC</option><option>AIPPM</option><option>UNCSW</option><option>UNSC</option><option>UNEP</option></select></div>
-<div class="field full"><label>Previous MUN awards / experience</label><textarea name="awards"></textarea></div>
-<div class="field full"><label>Why do you want to participate?</label><textarea name="why"></textarea></div>
-</div><label class="checkrow"><input type="checkbox" required> I confirm that the information provided is accurate.</label><button class="submit">SUBMIT REGISTRATION</button><div class="formnote">Prototype form: connect this submission to Google Forms/Jotform or your backend before launch.</div></form>
+<div class="eyebrow">01 · Delegate</div>
+<h3>Delegate Registration</h3>
+<p>Registration for StudentClutch MUN at Navriti School, Sector 43, Gurugram.</p>
+
+<form class="native-form" data-form-type="delegate">
+<fieldset class="formgroup"><legend>Personal Details</legend><div class="formgrid">
+<div class="field"><label>Delegate Name <span class="req">*</span></label><input required name="Delegate Name" placeholder="Full Name"></div>
+<div class="field"><label>Email Address <span class="req">*</span></label><input required type="email" name="Email Address" placeholder="name@example.com"></div>
+<div class="field"><label>WhatsApp Number <span class="req">*</span></label><input required name="WhatsApp Number" placeholder="+91 0000000000"></div>
+<div class="field"><label>School / College <span class="req">*</span></label><input required name="School/College" placeholder="School Name"></div>
+<div class="field"><label>Grade / Year <span class="req">*</span></label><input required name="Grade/Year" placeholder="Grade/Year"></div>
+<div class="field"><label>City <span class="req">*</span></label><input required name="City" placeholder="City"></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Committee Preferences</legend><div class="formgrid">
+<div class="field"><label>First Committee Preference <span class="req">*</span></label><select required name="First Committee Preference">
+<option value="">Select committee</option>
+<option>UNGA</option><option>UNHRC</option><option>AIPPM</option>
+<option>UNCSW</option><option>UNSC</option><option>UNEP</option>
+</select></div>
+<div class="field"><label>Second Committee Preference</label><select name="Second Committee Preference">
+<option value="">Select committee</option>
+<option>UNGA</option><option>UNHRC</option><option>AIPPM</option>
+<option>UNCSW</option><option>UNSC</option><option>UNEP</option>
+</select></div>
+<div class="field full"><label>Preferred Portfolio / Country</label><input name="Preferred Portfolio/Country" placeholder="Country / portfolio preference"></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>MUN Profile</legend><div class="formgrid">
+<div class="field full"><label>MUN Experience</label><textarea name="MUN Experience" placeholder="Tell us about your previous MUN experience."></textarea></div>
+<div class="field full"><label>Previous Awards</label><textarea name="Previous Awards" placeholder="Mention previous awards, if any."></textarea></div>
+<div class="field full"><label>EB Experience</label><textarea name="EB Experience" placeholder="Mention Executive Board experience, if any."></textarea></div>
+<div class="field full"><label>Referral Source</label><input name="Referral Source" placeholder="Where did you hear about us?"></div>
+</div></fieldset>
+
+<label class="checkrow"><input type="checkbox" required name="Confirmation" value="I agree to the terms and conditions."> I agree to the terms and conditions.</label>
+<div class="submitrow"><button class="submit" type="submit">SUBMIT REGISTRATION</button><span class="status" aria-live="polite"></span></div>
+</form>
 </div></div></section>
 
 <section class="formsection" id="eb-form"><div class="wrap formwrap"><div class="formcard">
-<div class="eyebrow">02 · Executive Board</div><h3>EB Application</h3><p>For Chairs, Vice-Chairs and Rapporteurs who want to lead from the dais.</p>
-<form onsubmit="submitDemo(event,'Executive Board application')"><div class="formgrid">
-<div class="field"><label>Full name *</label><input required></div><div class="field"><label>Email *</label><input required type="email"></div>
-<div class="field"><label>School / College *</label><input required></div><div class="field"><label>Class / Year *</label><input required></div>
-<div class="field"><label>Preferred position *</label><select required><option>Chairperson</option><option>Vice-Chairperson</option><option>Rapporteur</option><option>Any position</option></select></div><div class="field"><label>Preferred committee *</label><select required><option>UNGA</option><option>UNHRC</option><option>AIPPM</option><option>UNCSW</option><option>UNSC</option><option>UNEP</option></select></div>
-<div class="field full"><label>Previous EB positions & conferences *</label><textarea required></textarea></div>
-<div class="field full"><label>How would you handle a disruptive delegate?</label><textarea></textarea></div>
-<div class="field full"><label>Why do you want to join the StudentClutch.co MUN EB?</label><textarea></textarea></div>
-</div><button class="submit">SUBMIT EB APPLICATION</button><div class="formnote">Prototype form: connect this submission to Google Forms/Jotform or your backend before launch.</div></form>
+<div class="eyebrow">02 · Executive Board</div>
+<h3>Executive Board Application</h3>
+<p>For experienced MUNers applying to lead committees at StudentClutch MUN.</p>
+
+<form class="native-form" data-form-type="eb">
+<fieldset class="formgroup"><legend>Personal Details</legend><div class="formgrid">
+<div class="field"><label>Full Name <span class="req">*</span></label><input required name="Full Name" placeholder="Enter your full name"></div>
+<div class="field"><label>Email Address <span class="req">*</span></label><input required type="email" name="Email Address" placeholder="example@email.com"></div>
+<div class="field"><label>WhatsApp / Phone Number <span class="req">*</span></label><input required name="WhatsApp/Phone Number" placeholder="+91 0000000000"></div>
+<div class="field"><label>School / College <span class="req">*</span></label><input required name="School/College" placeholder="Enter your institution name"></div>
+<div class="field"><label>Grade / Year <span class="req">*</span></label><input required name="Grade/Year" placeholder="e.g. 12th Grade or 2nd Year"></div>
+<div class="field"><label>City <span class="req">*</span></label><input required name="City" placeholder="Enter your city"></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>MUN Experience</legend><div class="formgrid">
+<div class="field"><label>Number of MUNs attended</label><input type="number" min="0" name="Number of MUNs attended" value="0"></div>
+<div class="field"><label>Times served on an Executive Board</label><input type="number" min="0" name="Number of times served on an Executive Board" value="0"></div>
+<div class="field full"><label>Previous Executive Board positions</label><textarea name="Previous Executive Board positions"></textarea></div>
+<div class="field full"><label>Previous MUN awards</label><textarea name="Previous MUN awards"></textarea></div>
+<div class="field full"><label>Most notable MUN experiences</label><textarea name="Most notable MUN experiences"></textarea></div>
+<div class="field full"><label>Upload your MUN / EB CV</label><input type="file" name="MUN/EB CV" accept=".pdf,.doc,.docx"><div class="filehint">Maximum file size: 10 MB.</div></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Committee Preference</legend><div class="formgrid">
+<div class="field"><label>Preferred Committee <span class="req">*</span></label><select required name="Preferred Committee">
+<option value="">Select committee</option>
+<option>UNGA</option><option>UNHRC</option><option>AIPPM</option>
+<option>UNCSW</option><option>UNSC</option><option>UNEP</option>
+</select></div>
+<div class="field"><label>Second Committee Preference</label><select name="Second Committee Preference">
+<option value="">Select committee</option>
+<option>UNGA</option><option>UNHRC</option><option>AIPPM</option>
+<option>UNCSW</option><option>UNSC</option><option>UNEP</option>
+</select></div>
+<div class="field full"><span class="fieldlabel">Preferred Position <span class="req">*</span></span><div class="choicegrid">
+<label class="choice"><input required type="radio" name="Preferred Position" value="Chair"> Chair</label>
+<label class="choice"><input type="radio" name="Preferred Position" value="Vice-Chair"> Vice-Chair</label>
+<label class="choice"><input type="radio" name="Preferred Position" value="Rapporteur"> Rapporteur</label>
+</div></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Experience & Skills</legend><div class="formgrid">
+<div class="field full"><label>Why do you want to be a part of the Executive Board at StudentClutch MUN?</label><textarea name="Why StudentClutch MUN EB"></textarea></div>
+<div class="field full"><label>What makes you a good Executive Board member?</label><textarea name="What makes you a good EB member"></textarea></div>
+<div class="field full"><label>Describe your committee management style.</label><textarea name="Committee management style"></textarea></div>
+<div class="field full"><label>How would you handle a difficult or disruptive delegate?</label><textarea name="Handling a difficult delegate"></textarea></div>
+<div class="field full"><label>What do you think makes a good MUN committee?</label><textarea name="What makes a good MUN committee"></textarea></div>
+<div class="field full"><label>What is one thing you would do to make your committee memorable?</label><textarea name="Making the committee memorable"></textarea></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Academic & Professional Profile</legend><div class="formgrid">
+<div class="field"><label>LinkedIn profile</label><input type="url" name="LinkedIn profile" placeholder="https://linkedin.com/..."></div>
+<div class="field"><label>Instagram profile</label><input type="url" name="Instagram profile" placeholder="https://instagram.com/..."></div>
+<div class="field full"><label>Any other relevant achievements</label><textarea name="Other relevant achievements"></textarea></div>
+</div></fieldset>
+
+<label class="checkrow"><input type="checkbox" required name="Confirmation" value="Yes, I confirm."> I confirm that the information provided is accurate and that I will fulfil my responsibilities if selected.</label>
+<div class="submitrow"><button class="submit" type="submit">SUBMIT EB APPLICATION</button><span class="status" aria-live="polite"></span></div>
+</form>
 </div></div></section>
 
 <section class="formsection" id="team-form"><div class="wrap formwrap"><div class="formcard">
-<div class="eyebrow">03 · Secretariat & Organising Committee</div><h3>Join the Team</h3><p>Help us build the conference from the ground up.</p>
-<form onsubmit="submitDemo(event,'Secretariat / OC application')"><div class="formgrid">
-<div class="field"><label>Full name *</label><input required></div><div class="field"><label>Email *</label><input required type="email"></div>
-<div class="field"><label>School / College *</label><input required></div><div class="field"><label>Class / Year *</label><input required></div>
-<div class="field"><label>Department preference *</label><select required><option>Marketing & PR</option><option>School Outreach</option><option>Delegate Affairs</option><option>Logistics</option><option>Hospitality</option><option>Design & Creatives</option><option>Sponsorships</option><option>Operations</option><option>Content & Media</option></select></div><div class="field"><label>Previous MUN / organising experience</label><input></div>
-<div class="field full"><label>What can you contribute to the team?</label><textarea></textarea></div>
-<div class="field full"><label>Why do you want to join StudentClutch.co?</label><textarea></textarea></div>
-</div><button class="submit">SUBMIT TEAM APPLICATION</button><div class="formnote">Prototype form: connect this submission to Google Forms/Jotform or your backend before launch.</div></form>
+<div class="eyebrow">03 · Secretariat & Organising Committee</div>
+<h3>Secretariat & OC Application</h3>
+<p>Apply to join the team responsible for planning, managing and executing StudentClutch MUN.</p>
+
+<form class="native-form" data-form-type="team">
+<fieldset class="formgroup"><legend>Personal Details</legend><div class="formgrid">
+<div class="field"><label>Full Name <span class="req">*</span></label><input required name="Full Name" placeholder="Enter your full name"></div>
+<div class="field"><label>Email Address <span class="req">*</span></label><input required type="email" name="Email Address" placeholder="Enter your email address"></div>
+<div class="field"><label>WhatsApp / Phone Number <span class="req">*</span></label><input required name="WhatsApp/Phone Number" placeholder="Enter your phone number"></div>
+<div class="field"><label>School / College <span class="req">*</span></label><input required name="School/College" placeholder="Enter your school or college name"></div>
+<div class="field"><label>Grade / Year <span class="req">*</span></label><input required name="Grade/Year" placeholder="Enter your current grade or year"></div>
+<div class="field"><label>City <span class="req">*</span></label><input required name="City" placeholder="Enter your city"></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Role Preference</legend><div class="formgrid">
+<div class="field full"><span class="fieldlabel">Which team are you applying for? <span class="req">*</span></span><div class="choicegrid">
+<label class="choice"><input required type="radio" name="Applying For" value="Secretariat"> Secretariat</label>
+<label class="choice"><input type="radio" name="Applying For" value="Organising Committee"> Organising Committee</label>
+<label class="choice"><input type="radio" name="Applying For" value="Open to either"> Open to either</label>
+</div></div>
+<div class="field full"><label>Preferred role / team</label><input name="Preferred role/team" placeholder="e.g. Delegate Affairs, Logistics, Social Media, PR & HR, Cultural, Registration"></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Experience</legend><div class="formgrid">
+<div class="field full"><span class="fieldlabel">Have you attended an MUN before?</span><div class="choicegrid">
+<label class="choice"><input type="radio" name="Attended an MUN before" value="Yes"> Yes</label>
+<label class="choice"><input type="radio" name="Attended an MUN before" value="No"> No</label>
+</div></div>
+<div class="field"><label>Number of MUNs attended</label><input type="number" min="0" name="Number of MUNs attended" placeholder="Enter a number"></div>
+<div class="field full"><span class="fieldlabel">Have you previously worked in an MUN Secretariat / OC?</span><div class="choicegrid">
+<label class="choice"><input type="radio" name="Previously worked in Secretariat/OC" value="Yes"> Yes</label>
+<label class="choice"><input type="radio" name="Previously worked in Secretariat/OC" value="No"> No</label>
+</div></div>
+<div class="field full"><label>Describe your previous MUN / event-organising experience.</label><textarea name="Previous MUN/event-organising experience"></textarea></div>
+<div class="field full"><label>List relevant leadership positions, internships, volunteering or extracurricular experience.</label><textarea name="Leadership/internships/volunteering/extracurriculars"></textarea></div>
+<div class="field full"><label>Upload your CV / resume</label><input type="file" name="CV/resume" accept=".pdf,.doc,.docx"><div class="filehint">Maximum file size: 10 MB.</div></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Skills</legend><div class="formgrid">
+<div class="field full"><span class="fieldlabel">Select your strongest skills</span><div class="skillgrid"><label class="choice"><input type="checkbox" name="Strongest Skills" value="Leadership"> Leadership</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Communication"> Communication</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Public Speaking"> Public Speaking</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Event Management"> Event Management</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Marketing"> Marketing</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Social Media"> Social Media</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Graphic Design"> Graphic Design</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Sponsorships"> Sponsorships</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Public Relations"> Public Relations</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Team Management"> Team Management</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Logistics"> Logistics</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Research"> Research</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Photography/Videography"> Photography/Videography</label><label class="choice"><input type="checkbox" name="Strongest Skills" value="Other"> Other</label></div></div>
+<div class="field full"><label>Explain how your strongest skills could contribute to StudentClutch MUN.</label><textarea name="How skills contribute"></textarea></div>
+<div class="field full"><label>Describe a time when you took responsibility for a project or event.</label><textarea name="Responsibility example"></textarea></div>
+<div class="field full"><label>How would you handle pressure and last-minute problems during an event?</label><textarea name="Handling pressure"></textarea></div>
+<div class="field"><label>Hours per week you can realistically dedicate</label><input name="Hours per week" placeholder="e.g. 5-10 hours"></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Motivation</legend><div class="formgrid">
+<div class="field full"><label>Why do you want to join the StudentClutch MUN Secretariat / OC?</label><textarea name="Why join Secretariat/OC"></textarea></div>
+<div class="field full"><label>What would you like to contribute to the conference?</label><textarea name="Contribution to conference"></textarea></div>
+<div class="field full"><label>What is one idea you have to make StudentClutch MUN better than a typical school MUN?</label><textarea name="One idea to improve MUN"></textarea></div>
+</div></fieldset>
+
+<fieldset class="formgroup"><legend>Social / Professional Profile</legend><div class="formgrid">
+<div class="field"><label>LinkedIn profile</label><input type="url" name="LinkedIn profile" placeholder="Paste your LinkedIn URL"></div>
+<div class="field"><label>Instagram profile</label><input type="url" name="Instagram profile" placeholder="Paste your Instagram URL"></div>
+<div class="field full"><label>Portfolio / website</label><input type="url" name="Portfolio/website" placeholder="Paste your portfolio link"></div>
+</div></fieldset>
+
+<label class="checkrow"><input type="checkbox" required name="Confirmation" value="I confirm"> I confirm that the information provided is accurate and understand that selection is based on the requirements of the organising team.</label>
+<div class="submitrow"><button class="submit" type="submit">SUBMIT TEAM APPLICATION</button><span class="status" aria-live="polite"></span></div>
+</form>
 </div></div></section>
 
 <footer id="contact"><div class="wrap"><div class="foot"><div><div class="logo">StudentClutch<span>.co</span></div><p>Building opportunities for students to discover their professional selves — starting with experiences that make them speak, think and lead.</p></div><div><strong>MUN 2026</strong><p>Navriti School<br>Sector 43, Gurugram</p><a href="https://www.instagram.com/studentclutch.co/" target="_blank">Instagram · @studentclutch.co</a></div></div><div class="copyright">© 2026 StudentClutch.co · Debate · Discuss · Drive Change</div></div></footer>
 
 <script>
-function submitDemo(e,type){
- e.preventDefault();
- const btn=e.target.querySelector(".submit");
- btn.textContent="APPLICATION RECEIVED ✓";
- btn.disabled=true;
- alert(type+" received in this website prototype. Connect the form to Google Forms/Jotform/backend before publishing.");
+/*
+  IMPORTANT:
+  Paste your deployed Google Apps Script Web App URL below.
+  The forms themselves are 100% native to this website — no Tally iframe, popup or branding.
+*/
+const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbwHFqyejVvXa3_DvJxcDkhVLLYbt-wQwxsz8A6pLNG40d4snMSsHJZJUOrLfdyDyXb6tA/exec";
+
+async function fileToPayload(file){
+  if(!file || !file.name) return null;
+  if(file.size > 10 * 1024 * 1024) throw new Error("File size must be 10 MB or less.");
+  const data = await new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+  return {name:file.name,type:file.type || "application/octet-stream",data};
 }
+
+function collectFields(form){
+  const fd = new FormData(form);
+  const fields = {};
+  for(const [key,value] of fd.entries()){
+    if(value instanceof File) continue;
+    if(Object.prototype.hasOwnProperty.call(fields,key)){
+      fields[key] = Array.isArray(fields[key]) ? [...fields[key], value] : [fields[key], value];
+    } else {
+      fields[key] = value;
+    }
+  }
+  return fields;
+}
+
+document.querySelectorAll(".native-form").forEach(form=>{
+  form.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const btn = form.querySelector(".submit");
+    const status = form.querySelector(".status");
+
+    if(!FORM_ENDPOINT){
+      status.className = "status err";
+      status.textContent = "Submission storage is not connected yet. Add the Google Apps Script URL in FORM_ENDPOINT.";
+      return;
+    }
+
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = "SUBMITTING…";
+    status.className = "status";
+    status.textContent = "";
+
+    try{
+      const files = {};
+      for(const input of form.querySelectorAll('input[type="file"]')){
+        if(input.files && input.files[0]){
+          files[input.name] = await fileToPayload(input.files[0]);
+        }
+      }
+
+      const payload = {
+        formType: form.dataset.formType,
+        submittedAt: new Date().toISOString(),
+        fields: collectFields(form),
+        files
+      };
+
+      await fetch(FORM_ENDPOINT,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body:JSON.stringify(payload)
+      });
+
+      form.reset();
+      status.className = "status ok";
+      status.textContent = "Application submitted successfully ✓";
+      btn.textContent = "SUBMITTED ✓";
+      setTimeout(()=>{btn.textContent = originalText; btn.disabled = false;}, 2500);
+    }catch(err){
+      console.error(err);
+      status.className = "status err";
+      status.textContent = err.message || "Something went wrong. Please try again.";
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+  });
+});
 </script>
 </body>
-</html>'''
-
-(site/"index.html").write_text(html, encoding="utf-8")
-zip_path = Path("/mnt/data/studentclutch_mun_website_v2.zip")
-with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-    z.write(site/"index.html", arcname="index.html")
-
-print(f"Created: {zip_path}")
+</html>
