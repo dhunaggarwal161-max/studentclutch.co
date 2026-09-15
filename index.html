@@ -127,6 +127,7 @@ section{padding:100px 0}
 .matrix-copy{max-width:560px}
 .matrix-copy h2{font-size:clamp(30px,4vw,42px);line-height:1.1;margin:10px 0 8px;color:var(--wine)}
 .matrix-copy p{margin:0;color:var(--muted);font-size:15.5px}
+
 .portfolio-dropdown{margin-top:26px;border:1px solid var(--line-gold);background:var(--parchment);border-radius:4px;overflow:hidden}
 .portfolio-dropdown summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:19px 22px;color:var(--wine);font-size:13.5px;font-weight:700;letter-spacing:.035em;user-select:none;transition:background .2s ease}
 .portfolio-dropdown summary::-webkit-details-marker{display:none}
@@ -136,23 +137,120 @@ section{padding:100px 0}
 .dropdown-arrow{width:30px;height:30px;border:1px solid var(--line-gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;line-height:1;transition:transform .25s ease;flex:none}
 .portfolio-dropdown[open] .dropdown-arrow{transform:rotate(180deg)}
 .portfolio-dropdown-content{border-top:1px solid var(--line-gold);padding:22px}
+
 .matrix-status{font-size:12.5px;color:var(--muted);margin-bottom:18px}
 .matrix-status.err{color:#9b3e35}
-.matrixgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.matrixcard{border:1px solid var(--line);background:var(--ivory)}
-.matrixcard h3{font-family:"Fraunces";font-style:italic;font-weight:500;font-size:19px;color:var(--wine);padding:15px 18px;margin:0;border-bottom:1px solid var(--line-gold)}
-.matrixlist{list-style:none;margin:0;padding:8px 18px 14px}
-.matrixlist li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px}
-.matrixlist li:last-child{border-bottom:0}
-.pf-status{font-size:10px;font-weight:700;font-variant:small-caps;letter-spacing:.05em;padding:3px 9px;border-radius:999px;white-space:nowrap}
-.pf-status.available{color:#3f6b45;background:rgba(63,107,69,.1);border:1px solid rgba(63,107,69,.3)}
-.pf-status.taken{color:var(--muted);background:rgba(111,95,82,.1);border:1px solid var(--line)}
+.matrixgrid{display:block}
+
+.committee-picker{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.committee-filter{
+  appearance:none;
+  width:100%;
+  border:1px solid var(--line);
+  background:var(--ivory);
+  padding:18px 16px;
+  text-align:left;
+  cursor:pointer;
+  border-radius:3px;
+  color:var(--wine);
+  transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.committee-filter:hover{
+  transform:translateY(-1px);
+  border-color:var(--gold);
+  box-shadow:0 10px 24px -20px rgba(74,18,32,.45);
+}
+.committee-filter.active{
+  border-color:var(--gold);
+  background:rgba(169,129,46,.08);
+}
+.committee-filter strong{
+  display:block;
+  font-family:"Fraunces",Georgia,serif;
+  font-size:20px;
+  font-weight:500;
+  font-style:italic;
+}
+.committee-filter small{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.025em;
+}
+
+.committee-detail{
+  margin-top:16px;
+  border:1px solid var(--line-gold);
+  background:var(--ivory);
+}
+.committee-detail-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:16px 18px;
+  border-bottom:1px solid var(--line);
+}
+.committee-detail-head h3{
+  font-size:21px;
+  color:var(--wine);
+  font-style:italic;
+}
+.committee-detail-head span{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:600;
+}
+.available-portfolio-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+  padding:16px 18px 18px;
+}
+.available-portfolio{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-width:0;
+  border:1px solid var(--line);
+  padding:10px 11px;
+  font-size:12.5px;
+  color:var(--ink);
+  background:var(--parchment);
+}
+.available-portfolio span:first-child{
+  overflow-wrap:anywhere;
+}
+.available-mark{
+  flex:none;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#4f7a52;
+}
+.no-portfolios{
+  padding:22px 18px;
+  color:var(--muted);
+  font-size:13px;
+}
+
 @media(max-width:820px){
   .matrix{padding:56px 0}
   .matrix-top{display:block}
   .portfolio-dropdown-content{padding:14px}
   .portfolio-dropdown summary{padding:17px 16px}
-  .matrixgrid{grid-template-columns:1fr}
+  .committee-picker{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .available-portfolio-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .committee-picker{grid-template-columns:1fr}
 }
 
 /* ---- forms ---- */
@@ -570,6 +668,7 @@ function isAvailable(row){
 }
 
 let portfolioData = [];
+let activeMatrixCommittee = "";
 let portfolioFetchInFlight = false;
 
 function renderMatrix(){
@@ -583,31 +682,65 @@ function renderMatrix(){
     byCommittee[row.committee].push(row);
   });
 
-  const committees = Object.keys(byCommittee).sort((a,b)=>{
-    const ai = COMMITTEE_ORDER.indexOf(a);
-    const bi = COMMITTEE_ORDER.indexOf(b);
-    if(ai === -1 && bi === -1) return a.localeCompare(b);
-    if(ai === -1) return 1;
-    if(bi === -1) return -1;
-    return ai - bi;
-  });
+  // Always show the six conference committees as compact choices.
+  const committees = COMMITTEE_ORDER.slice();
 
-  gridEl.innerHTML = committees.map(committee=>{
-    const rows = byCommittee[committee].map(r=>{
-      const available = isAvailable(r);
-      const label = available ? "Available" : (r.status || "Unavailable");
-      return `<li><span>${escapeHtml(r.portfolio)}</span><span class="pf-status ${available ? "available" : "taken"}">${escapeHtml(label)}</span></li>`;
-    }).join("");
-    return `<div class="matrixcard"><h3>${escapeHtml(displayCommittee(committee))}</h3><ul class="matrixlist">${rows}</ul></div>`;
+  const picker = committees.map(committee=>{
+    const availableCount = (byCommittee[committee] || []).filter(isAvailable).length;
+    const active = activeMatrixCommittee === committee;
+    return `
+      <button type="button" class="committee-filter ${active ? "active" : ""}" data-committee="${escapeHtml(committee)}" aria-pressed="${active ? "true" : "false"}">
+        <strong>${escapeHtml(displayCommittee(committee))}</strong>
+        <small>${availableCount} portfolio${availableCount === 1 ? "" : "s"} available</small>
+      </button>`;
   }).join("");
 
-  if(!committees.length){
-    gridEl.innerHTML = `<div class="matrixcard"><h3>No portfolio data</h3><ul class="matrixlist"><li><span>Check the Sheet tab names, PORTFOLIO header and Status values.</span></li></ul></div>`;
+  let detail = "";
+  if(activeMatrixCommittee){
+    const availableRows = (byCommittee[activeMatrixCommittee] || []).filter(isAvailable);
+    const displayName = displayCommittee(activeMatrixCommittee);
+
+    if(availableRows.length){
+      const portfolios = availableRows.map(row=>`
+        <div class="available-portfolio">
+          <span>${escapeHtml(row.portfolio)}</span>
+          <span class="available-mark" aria-label="Available" title="Available"></span>
+        </div>`).join("");
+
+      detail = `
+        <div class="committee-detail">
+          <div class="committee-detail-head">
+            <h3>${escapeHtml(displayName)}</h3>
+            <span>${availableRows.length} currently available</span>
+          </div>
+          <div class="available-portfolio-grid">${portfolios}</div>
+        </div>`;
+    }else{
+      detail = `
+        <div class="committee-detail">
+          <div class="committee-detail-head">
+            <h3>${escapeHtml(displayName)}</h3>
+            <span>0 currently available</span>
+          </div>
+          <div class="no-portfolios">No portfolios are currently available in this committee.</div>
+        </div>`;
+    }
   }
+
+  gridEl.innerHTML = `<div class="committee-picker">${picker}</div>${detail}`;
+
+  gridEl.querySelectorAll(".committee-filter").forEach(button=>{
+    button.addEventListener("click", ()=>{
+      const committee = button.dataset.committee || "";
+      // Clicking the same committee again closes its portfolio list.
+      activeMatrixCommittee = activeMatrixCommittee === committee ? "" : committee;
+      renderMatrix();
+    });
+  });
 
   const now = new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
   statusEl.className = "matrix-status";
-  statusEl.textContent = `Last updated ${now} · refreshes automatically every 60 seconds`;
+  statusEl.textContent = `Choose a committee below · Last updated ${now} · refreshes automatically every 60 seconds`;
 }
 
 function populatePortfolioDropdown(selectEl, committeeName){
