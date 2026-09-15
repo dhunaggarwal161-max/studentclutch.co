@@ -254,7 +254,8 @@ section{padding:100px 0}
 }
 
 /* ---- forms ---- */
-.formsection{background:var(--parchment);border-top:1px solid var(--line)}
+.formsection{display:none;background:var(--parchment);border-top:1px solid var(--line);padding-top:34px}
+.formsection.active{display:block}
 .formwrap{max-width:900px}
 .formcard{background:var(--ivory);border:1px solid var(--line);padding:44px 44px 40px}
 .formcard .eyebrow{display:block;margin-bottom:6px}
@@ -361,8 +362,8 @@ footer{background:var(--wine-deep);color:rgba(250,246,236,.82);padding:56px 0 28
   <div class="head"><div class="eyebrow">The rooms</div><h2>Six committees. Six worlds.</h2><p>Choose your arena, take a position and defend it with evidence.</p></div>
   <div class="commgrid">
     <article class="comm"><span class="seal">GA</span><h3>UNGA</h3><small>United Nations General Assembly</small><p>Addressing global governance challenges posed by Artificial Intelligence, with emphasis on equitable access and responsible development.</p></article>
-    <article class="comm"><span class="seal">HR</span><h3>UNHRC</h3><small>United Nations Human Rights Council</small><p>Formulating an international framework to enforce the “Right to Be Forgotten,” balancing digital privacy protections against press freedom, historical archiving, and corporate data ownership.</p></article>
-    <article class="comm"><span class="seal">PM</span><h3>AIPPM</h3><small>All India Political Parties Meet</small><p>Deliberation upon the recent student-led protests at Jantar Mantar and the need for comprehensive reforms in India’s examination system, educational governance, and democratic engagement.</p></article>
+    <article class="comm"><span class="seal">HR</span><h3>UNHRC</h3><small>United Nations Human Rights Council</small><p>Protection of human rights in the digital age, with emphasis on online surveillance, censorship and freedom of expression.</p></article>
+    <article class="comm"><span class="seal">PM</span><h3>AIPPM</h3><small>All India Political Parties Meet</small><p>Electoral reforms in India, focusing on political funding, electoral transparency and the role of social media.</p></article>
     <article class="comm"><span class="seal">SW</span><h3>UNCSW</h3><small>Commission on the Status of Women</small><p>Bridging the gender digital divide through equal access to technology, digital education and economic opportunities for women.</p></article>
     <article class="comm"><span class="seal">SC</span><h3>UNSC</h3><small>United Nations Security Council</small><p>The evolving nature of modern warfare, with special emphasis on autonomous weapons and Artificial Intelligence.</p></article>
     <article class="comm"><span class="seal">EP</span><h3>UNEP</h3><small>United Nations Environment Programme</small><p>Climate resilience in the Global South, focusing on climate finance, adaptation, loss and damage.</p></article>
@@ -396,9 +397,9 @@ footer{background:var(--wine-deep);color:rgba(250,246,236,.82);padding:56px 0 28
 <section class="applications" id="applications"><div class="wrap">
   <div class="head"><div class="eyebrow">Applications open</div><h2>Choose your role.</h2><p>Whether you want to represent a country, run a committee, or build the conference behind the scenes — there is a place for you.</p></div>
   <div class="appgrid">
-    <div class="app"><span class="label">For delegates</span><h3>Delegate Registration</h3><p>Represent a country or political position, research your agenda and take the floor.</p><a class="btn" href="#delegate-form">Register as Delegate</a></div>
-    <div class="app"><span class="label">For experienced MUNers</span><h3>Executive Board</h3><p>Take the dais, manage debate and create a committee experience delegates remember.</p><a class="btn" href="#eb-form">Apply for EB</a></div>
-    <div class="app"><span class="label">For builders</span><h3>Secretariat & OC</h3><p>Help build the conference — outreach, marketing, design, logistics, hospitality and operations.</p><a class="btn" href="#team-form">Join the Team</a></div>
+    <div class="app"><span class="label">For delegates</span><h3>Delegate Registration</h3><p>Represent a country or political position, research your agenda and take the floor.</p><a class="btn form-open" data-form-target="delegate-form" href="#delegate-form">Register as Delegate</a></div>
+    <div class="app"><span class="label">For experienced MUNers</span><h3>Executive Board</h3><p>Take the dais, manage debate and create a committee experience delegates remember.</p><a class="btn form-open" data-form-target="eb-form" href="#eb-form">Apply for EB</a></div>
+    <div class="app"><span class="label">For builders</span><h3>Secretariat & OC</h3><p>Help build the conference — outreach, marketing, design, logistics, hospitality and operations.</p><a class="btn form-open" data-form-target="team-form" href="#team-form">Join the Team</a></div>
   </div>
 </div></section>
 
@@ -831,6 +832,44 @@ wireCommitteeToPortfolioOnce("committee-select-1", "portfolio-select-1");
 wireCommitteeToPortfolioOnce("committee-select-2", "portfolio-select-2");
 loadPortfolioMatrix();
 setInterval(loadPortfolioMatrix, PORTFOLIO_REFRESH_MS);
+
+
+// ---- application form opener ----
+const APPLICATION_FORM_IDS = ["delegate-form", "eb-form", "team-form"];
+
+function openApplicationForm(targetId, shouldScroll = true){
+  if(!APPLICATION_FORM_IDS.includes(targetId)) return;
+
+  document.querySelectorAll(".formsection").forEach(section=>{
+    const isActive = section.id === targetId;
+    section.classList.toggle("active", isActive);
+    section.setAttribute("aria-hidden", isActive ? "false" : "true");
+  });
+
+  if(history.replaceState){
+    history.replaceState(null, "", `#${targetId}`);
+  }
+
+  if(shouldScroll){
+    const section = document.getElementById(targetId);
+    if(section){
+      const y = section.getBoundingClientRect().top + window.scrollY - 78;
+      window.scrollTo({top:y, behavior:"smooth"});
+    }
+  }
+}
+
+document.querySelectorAll(".form-open").forEach(link=>{
+  link.addEventListener("click", (e)=>{
+    e.preventDefault();
+    openApplicationForm(link.dataset.formTarget);
+  });
+});
+
+// Direct links like /#delegate-form still work.
+if(APPLICATION_FORM_IDS.includes(location.hash.replace("#",""))){
+  openApplicationForm(location.hash.replace("#",""), false);
+}
 
 document.querySelectorAll(".native-form").forEach(form=>{
   form.addEventListener("submit", async (e)=>{
