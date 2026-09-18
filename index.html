@@ -1,373 +1,1337 @@
-from pathlib import Path
-
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="StudentClutch — Discover your professional self through opportunities, experiences, communities and events." />
-  <title>StudentClutch — Discover Your Professional Self</title>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>StudentClutch.co — For Students, By Students</title>
+
+  <meta
+    name="description"
+    content="StudentClutch.co is an independent platform helping students discover opportunities, experiences, communities and ways to turn ideas into action."
+  >
+
+  <!-- FAVICON -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="favicon.png"
+  >
+
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    href="favicon.png"
+  >
+
   <style>
-    :root{
-      --cream:#fffdf7;
-      --white:#ffffff;
-      --green:#5eaa72;
-      --green-dark:#2e6842;
-      --green-soft:#eaf6ec;
-      --yellow:#ffd85c;
-      --yellow-soft:#fff4c9;
-      --ink:#202722;
-      --muted:#68716b;
-      --line:#e9eee9;
-      --shadow:0 18px 45px rgba(42,76,51,.10);
-      --radius:24px;
-      --max:1180px;
+
+    @import url(
+      'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap'
+    );
+
+    :root {
+      --green: #174b3a;
+      --green-light: #e7f1eb;
+      --lime: #d9ed68;
+      --yellow: #f8dc72;
+      --cream: #fbfaf5;
+      --white: #ffffff;
+      --text: #17251f;
+      --muted: #718078;
+      --border: #e6ebe7;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:var(--cream);
-      color:var(--ink);
-      line-height:1.6;
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    a{text-decoration:none;color:inherit}
-    img{max-width:100%;display:block}
-    .container{width:min(var(--max),calc(100% - 40px));margin:auto}
-    .nav{
-      position:sticky;top:0;z-index:20;
-      background:rgba(255,253,247,.88);
-      backdrop-filter:blur(16px);
-      border-bottom:1px solid rgba(233,238,233,.75);
+
+    html {
+      scroll-behavior: smooth;
     }
-    .nav-inner{height:78px;display:flex;align-items:center;justify-content:space-between}
-    .logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px;letter-spacing:-.7px}
-    .logo-mark{
-      width:38px;height:38px;border-radius:12px;background:var(--green);
-      display:grid;place-items:center;color:white;font-weight:900;
-      box-shadow:0 7px 16px rgba(94,170,114,.25);
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
     }
-    .logo span{color:var(--green-dark)}
-    .links{display:flex;gap:30px;align-items:center;color:#4e5851;font-size:14px;font-weight:650}
-    .links a:hover{color:var(--green-dark)}
-    .nav-cta,.primary{
-      background:var(--green);color:white;padding:12px 19px;border-radius:13px;
-      font-weight:800;border:0;display:inline-block;transition:.2s;
-      box-shadow:0 8px 18px rgba(94,170,114,.18)
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
-    .nav-cta:hover,.primary:hover{transform:translateY(-2px);background:var(--green-dark)}
-    .secondary{
-      background:white;border:1px solid var(--line);padding:12px 19px;border-radius:13px;
-      font-weight:800;display:inline-block;transition:.2s;
+
+    .container {
+      width: min(1180px, 92%);
+      margin: auto;
     }
-    .secondary:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-    .menu{display:none;background:none;border:0;font-size:25px}
-    
-    .hero{padding:88px 0 75px;position:relative;overflow:hidden}
-    .hero:before{
-      content:"";position:absolute;width:430px;height:430px;border-radius:50%;
-      background:var(--yellow-soft);right:-170px;top:-170px;z-index:-1;
+
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+
+      border-bottom: 1px solid var(--border);
+
+      background: rgba(251, 250, 245, 0.92);
+
+      backdrop-filter: blur(14px);
+
+      position: sticky;
+      top: 0;
+
+      z-index: 100;
     }
-    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:70px;align-items:center}
-    .eyebrow{
-      display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;
-      background:var(--green-soft);color:var(--green-dark);font-weight:800;font-size:12px;
-      margin-bottom:22px;
+
+    .nav-inner {
+      width: min(1180px, 92%);
+      margin: auto;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
-    h1{
-      font-size:clamp(48px,6.3vw,82px);line-height:.98;letter-spacing:-4px;
-      max-width:720px;margin-bottom:25px;
+
+    .logo {
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
     }
-    h1 em{font-style:normal;color:var(--green)}
-    .hero-copy{font-size:18px;color:var(--muted);max-width:610px;margin-bottom:31px}
-    .buttons{display:flex;gap:12px;flex-wrap:wrap}
-    .hero-note{display:flex;gap:18px;margin-top:30px;color:#6a746d;font-size:13px}
-    .hero-note strong{color:var(--ink)}
-    .visual{
-      min-height:500px;background:white;border:1px solid var(--line);border-radius:34px;
-      box-shadow:var(--shadow);position:relative;padding:25px;overflow:hidden;
+
+    .logo span {
+      color: #4d8069;
     }
-    .visual-top{display:flex;justify-content:space-between;align-items:center}
-    .mini-title{font-weight:900;font-size:15px}
-    .mini-pill{background:var(--yellow-soft);padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800}
-    .orbit{
-      position:absolute;width:330px;height:330px;border:1px dashed #b9d7c0;border-radius:50%;
-      left:50%;top:51%;transform:translate(-50%,-50%);
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+
+      font-size: 14px;
+
+      color: #506059;
+
+      font-weight: 500;
     }
-    .center{
-      position:absolute;left:50%;top:51%;transform:translate(-50%,-50%);
-      width:130px;height:130px;border-radius:38px;background:var(--green);
-      color:white;display:grid;place-items:center;text-align:center;font-weight:900;
-      font-size:18px;line-height:1.15;box-shadow:0 20px 40px rgba(94,170,114,.28);
+
+    .nav-links a {
+      transition: 0.2s ease;
     }
-    .float-card{
-      position:absolute;background:white;border:1px solid var(--line);box-shadow:0 13px 30px rgba(42,76,51,.11);
-      border-radius:18px;padding:13px 15px;font-size:12px;font-weight:800;
+
+    .nav-links a:hover {
+      color: var(--green);
     }
-    .f1{top:130px;left:22px}.f2{top:105px;right:20px}.f3{bottom:95px;left:35px}.f4{bottom:70px;right:30px}
-    .float-card small{display:block;color:var(--muted);font-weight:600;margin-top:2px}
-    
-    section{padding:88px 0}
-    .section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:38px}
-    .kicker{text-transform:uppercase;letter-spacing:2px;color:var(--green-dark);font-size:11px;font-weight:900;margin-bottom:10px}
-    h2{font-size:clamp(32px,4vw,52px);line-height:1.05;letter-spacing:-2px}
-    .section-head p{max-width:450px;color:var(--muted)}
-    
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
-    .card{
-      background:white;border:1px solid var(--line);border-radius:var(--radius);padding:27px;
-      min-height:230px;transition:.2s;
+
+    .nav-cta {
+      background: var(--green);
+      color: white;
+
+      padding: 11px 19px;
+
+      border-radius: 999px;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      transition: 0.2s ease;
     }
-    .card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
-    .icon{
-      width:45px;height:45px;border-radius:14px;background:var(--green-soft);
-      display:grid;place-items:center;font-size:20px;margin-bottom:24px;
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
     }
-    .card h3{font-size:20px;margin-bottom:8px}
-    .card p{font-size:14px;color:var(--muted)}
-    
-    .journey{background:var(--green-dark);color:white}
-    .journey .kicker{color:var(--yellow)}
-    .journey p{color:#dcebe0}
-    .journey-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:70px;align-items:center}
-    .steps{display:grid;gap:0}
-    .step{display:grid;grid-template-columns:55px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.13)}
-    .step:last-child{border-bottom:0}
-    .num{width:42px;height:42px;border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center;font-weight:900}
-    .step h3{font-size:19px;margin-bottom:3px}
-    .step p{font-size:13px;color:#dcebe0}
-    
-    .events{background:#f4faF5}
-    .event-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .event{
-      background:white;border:1px solid var(--line);border-radius:22px;overflow:hidden;transition:.2s;
+
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      padding: 105px 0 95px;
     }
-    .event:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
-    .event-banner{height:135px;background:var(--green-soft);padding:20px;position:relative}
-    .event-banner.yellow{background:var(--yellow-soft)}
-    .event-banner.mint{background:#e1f3ea}
-    .tag{background:white;padding:6px 9px;border-radius:999px;font-size:10px;font-weight:900;display:inline-block}
-    .event-banner b{position:absolute;left:20px;bottom:17px;font-size:25px;letter-spacing:-1px}
-    .event-body{padding:20px}
-    .event-body p{font-size:13px;color:var(--muted);margin:7px 0 17px}
-    .event-link{font-size:13px;font-weight:900;color:var(--green-dark)}
-    
-    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:65px;align-items:center}
-    .about-box{
-      background:var(--yellow);border-radius:32px;padding:45px;min-height:350px;
-      position:relative;overflow:hidden;
+
+    .hero-inner {
+      text-align: center;
+
+      max-width: 920px;
+
+      margin: auto;
     }
-    .about-box:after{content:"✦";position:absolute;font-size:190px;right:-5px;bottom:-65px;opacity:.15}
-    .about-box h3{font-size:38px;line-height:1.05;letter-spacing:-1.5px;max-width:420px}
-    .about-copy p{color:var(--muted);margin:16px 0}
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:25px}
-    .stat{padding:17px;background:white;border:1px solid var(--line);border-radius:17px}
-    .stat b{font-size:24px;display:block;color:var(--green-dark)}
-    .stat span{font-size:11px;color:var(--muted)}
-    
-    .cta{
-      padding:70px 0 95px;
+
+    .pill {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      background: var(--green-light);
+
+      color: var(--green);
+
+      padding: 8px 14px;
+
+      border-radius: 100px;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      margin-bottom: 27px;
     }
-    .cta-box{
-      background:var(--green);color:white;border-radius:32px;padding:60px;
-      display:flex;align-items:center;justify-content:space-between;gap:40px;overflow:hidden;position:relative;
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+
+      background: #65a383;
+
+      border-radius: 50%;
     }
-    .cta-box:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;background:rgba(255,216,92,.22);right:-70px;top:-100px}
-    .cta-box h2{max-width:620px;position:relative;z-index:1}
-    .cta-box p{color:#e5f2e8;margin-top:12px;max-width:600px}
-    .cta-box .primary{background:var(--yellow);color:var(--ink);white-space:nowrap;position:relative;z-index:1}
-    
-    footer{border-top:1px solid var(--line);padding:30px 0;background:white}
-    .footer-inner{display:flex;justify-content:space-between;gap:20px;align-items:center}
-    .footer-copy{font-size:12px;color:var(--muted)}
-    .socials{display:flex;gap:18px;font-size:13px;font-weight:800;color:var(--green-dark)}
-    
-    @media(max-width:900px){
-      .links{display:none}.menu{display:block}
-      .hero-grid,.journey-grid,.about-grid{grid-template-columns:1fr}
-      .hero{padding-top:60px}.visual{min-height:440px}
-      .cards,.event-grid{grid-template-columns:1fr 1fr}
-      .section-head{display:block}.section-head p{margin-top:14px}
-      .cta-box{display:block;padding:42px 30px}.cta-box .primary{margin-top:25px}
+
+    h1 {
+      font-size: clamp(52px, 8vw, 92px);
+
+      line-height: 0.95;
+
+      letter-spacing: -5px;
+
+      font-weight: 700;
     }
-    @media(max-width:600px){
-      .container{width:min(var(--max),calc(100% - 28px))}
-      h1{letter-spacing:-2.5px}
-      section{padding:65px 0}
-      .cards,.event-grid,.stats{grid-template-columns:1fr}
-      .visual{min-height:390px}.orbit{width:250px;height:250px}
-      .center{width:105px;height:105px;font-size:15px}
-      .f1{top:105px}.f2{top:82px}.f3{bottom:65px}.f4{bottom:45px}
-      .about-box{padding:30px;min-height:290px}.about-box h3{font-size:31px}
-      .footer-inner{display:block}.socials{margin-top:13px}
+
+    h1 em {
+      font-family: "Playfair Display", serif;
+
+      font-weight: 500;
+
+      color: var(--green);
     }
+
+    .hero-description {
+      max-width: 650px;
+
+      margin: 28px auto 0;
+
+      color: var(--muted);
+
+      line-height: 1.75;
+
+      font-size: 17px;
+    }
+
+    .hero-buttons {
+      margin-top: 30px;
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+    }
+
+    .button {
+      padding: 14px 21px;
+
+      border-radius: 12px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      transition: 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: var(--green);
+
+      color: white;
+    }
+
+    .button-secondary {
+      background: var(--yellow);
+
+      color: var(--text);
+    }
+
+
+    /* =========================
+       DESTINATIONS
+    ========================= */
+
+    .destinations {
+      padding: 30px 0 100px;
+    }
+
+    .section-heading {
+      text-align: center;
+
+      margin-bottom: 35px;
+    }
+
+    .section-heading small {
+      color: #67937e;
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.5px;
+    }
+
+    .section-heading h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: 40px;
+
+      font-weight: 500;
+
+      margin-top: 8px;
+    }
+
+    .destination-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 18px;
+    }
+
+    .destination {
+      min-height: 350px;
+
+      padding: 30px;
+
+      border-radius: 25px;
+
+      border: 1px solid var(--border);
+
+      background: white;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: space-between;
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+      position: relative;
+
+      overflow: hidden;
+    }
+
+    .destination:hover {
+      transform: translateY(-6px);
+
+      box-shadow:
+        0 18px 45px rgba(23, 75, 58, 0.09);
+    }
+
+    .destination:nth-child(2) {
+      background: var(--green);
+
+      color: white;
+    }
+
+    .destination:nth-child(3) {
+      background: #fff5c9;
+    }
+
+    .number {
+      font-size: 12px;
+
+      font-weight: 800;
+
+      opacity: 0.55;
+    }
+
+    .destination h3 {
+      font-size: 31px;
+
+      letter-spacing: -1.5px;
+
+      margin-bottom: 12px;
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+    .destination p {
+      font-size: 14px;
+
+      line-height: 1.65;
+
+      color: var(--muted);
+
+      max-width: 290px;
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+    .destination:nth-child(2) p {
+      color: #cbdad3;
+    }
+
+    .destination-link {
+      font-size: 13px;
+
+      font-weight: 800;
+
+      margin-top: 25px;
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+    .circle {
+      position: absolute;
+
+      width: 150px;
+      height: 150px;
+
+      border-radius: 50%;
+
+      right: -55px;
+      top: -55px;
+
+      background: var(--lime);
+
+      opacity: 0.7;
+    }
+
+    .destination:nth-child(2) .circle {
+      background: var(--yellow);
+    }
+
+    .destination:nth-child(3) .circle {
+      background: #cde86c;
+    }
+
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about {
+      padding: 100px 0;
+
+      background: white;
+
+      border-top: 1px solid var(--border);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+
+      grid-template-columns: 0.8fr 1.2fr;
+
+      gap: 100px;
+
+      align-items: center;
+    }
+
+    .label {
+      color: #67937e;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.5px;
+
+      font-size: 11px;
+
+      font-weight: 800;
+    }
+
+    .about h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(38px, 5vw, 58px);
+
+      line-height: 1.05;
+
+      font-weight: 500;
+
+      margin-top: 12px;
+    }
+
+    .about-copy {
+      font-size: 19px;
+
+      line-height: 1.75;
+
+      color: #5d6c65;
+    }
+
+    .highlight {
+      background: var(--lime);
+
+      padding: 2px 6px;
+
+      color: var(--green);
+    }
+
+
+    /* =========================
+       VALUES
+    ========================= */
+
+    .values {
+      padding: 100px 0;
+    }
+
+    .values-heading {
+      max-width: 650px;
+
+      margin-bottom: 45px;
+    }
+
+    .values-heading h2 {
+      font-size: 48px;
+
+      letter-spacing: -2.5px;
+
+      margin-top: 10px;
+
+      line-height: 1.05;
+    }
+
+    .values-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 18px;
+    }
+
+    .value {
+      padding: 28px;
+
+      background: white;
+
+      border: 1px solid var(--border);
+
+      border-radius: 21px;
+
+      transition: 0.2s ease;
+    }
+
+    .value:hover {
+      transform: translateY(-4px);
+
+      box-shadow:
+        0 15px 35px rgba(23, 75, 58, 0.07);
+    }
+
+    .value-icon {
+      width: 44px;
+      height: 44px;
+
+      display: grid;
+
+      place-items: center;
+
+      border-radius: 12px;
+
+      background: var(--green-light);
+
+      color: var(--green);
+
+      font-weight: 800;
+
+      margin-bottom: 25px;
+    }
+
+    .value h3 {
+      font-size: 21px;
+
+      margin-bottom: 9px;
+    }
+
+    .value p {
+      color: var(--muted);
+
+      font-size: 14px;
+
+      line-height: 1.65;
+    }
+
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+      padding: 40px 0 100px;
+    }
+
+    .cta-box {
+      background: var(--green);
+
+      border-radius: 30px;
+
+      padding: 70px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      color: white;
+    }
+
+    .cta-box:after {
+      content: "";
+
+      width: 260px;
+      height: 260px;
+
+      background: var(--lime);
+
+      border-radius: 50%;
+
+      position: absolute;
+
+      right: -80px;
+      top: -100px;
+    }
+
+    .cta-box h2 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(40px, 5vw, 62px);
+
+      font-weight: 500;
+
+      max-width: 650px;
+
+      line-height: 1.05;
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+    .cta-box p {
+      color: #cddbd4;
+
+      max-width: 580px;
+
+      line-height: 1.7;
+
+      margin: 18px 0 27px;
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+    .cta-button {
+      display: inline-block;
+
+      background: var(--yellow);
+
+      color: var(--text);
+
+      padding: 14px 21px;
+
+      border-radius: 12px;
+
+      font-weight: 800;
+
+      font-size: 14px;
+
+      position: relative;
+
+      z-index: 2;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      border-top: 1px solid var(--border);
+
+      padding: 35px 0;
+
+      background: var(--cream);
+    }
+
+    .footer-inner {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 20px;
+    }
+
+    .footer-note {
+      font-size: 12px;
+
+      color: #829088;
+
+      margin-top: 4px;
+    }
+
+    .footer-links {
+      display: flex;
+
+      gap: 20px;
+
+      font-size: 13px;
+
+      color: #64736b;
+    }
+
+    .footer-links a:hover {
+      color: var(--green);
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 800px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-cta {
+        padding: 10px 15px;
+      }
+
+      .hero {
+        padding: 70px 0 65px;
+      }
+
+      h1 {
+        letter-spacing: -3px;
+      }
+
+      .hero-description {
+        font-size: 15px;
+      }
+
+      .destination-grid,
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .destination {
+        min-height: 300px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+      }
+
+      .about-copy {
+        font-size: 17px;
+      }
+
+      .values-heading h2 {
+        font-size: 38px;
+      }
+
+      .cta-box {
+        padding: 45px 28px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+
+        align-items: flex-start;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+      }
+
+    }
+
   </style>
 </head>
+
+
 <body>
 
-  <nav class="nav">
-    <div class="container nav-inner">
-      <a class="logo" href="#">
-        <div class="logo-mark">S</div>
-        Student<span>Clutch</span>
+
+  <!-- =========================
+       NAVIGATION
+  ========================= -->
+
+  <nav>
+
+    <div class="nav-inner">
+
+      <a href="index.html" class="logo">
+        student<span>clutch</span>.co
       </a>
-      <div class="links">
-        <a href="#explore">Explore</a>
-        <a href="#journey">How it works</a>
-        <a href="#events">Events</a>
-        <a href="#about">About</a>
-        <a class="nav-cta" href="#join">Join StudentClutch</a>
+
+      <div class="nav-links">
+
+        <a href="#about">
+          About
+        </a>
+
+        <a href="#explore">
+          Explore
+        </a>
+
+        <a href="#why">
+          Why StudentClutch
+        </a>
+
       </div>
-      <button class="menu" aria-label="Menu">☰</button>
+
+      <a href="#explore" class="nav-cta">
+        Explore
+      </a>
+
     </div>
+
   </nav>
 
+
   <main>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
     <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow"><span class="dot"></span> Built for students, by students</div>
-          <h1>Discover your <em>professional self.</em></h1>
-          <p class="hero-copy">
-            StudentClutch helps students discover opportunities, build real-world experience,
-            meet ambitious people and explore what comes next.
-          </p>
-          <div class="buttons">
-            <a class="primary" href="#explore">Explore opportunities →</a>
-            <a class="secondary" href="#events">See upcoming events</a>
-          </div>
-          <div class="hero-note">
-            <span>✦ <strong>Learn</strong> beyond classrooms</span>
-            <span>✦ <strong>Build</strong> beyond resumes</span>
-          </div>
+
+      <div class="container hero-inner">
+
+        <div class="pill">
+
+          <span class="pill-dot"></span>
+
+          The student ecosystem
+
         </div>
 
-        <div class="visual">
-          <div class="visual-top">
-            <div class="mini-title">Your student journey</div>
-            <div class="mini-pill">Start exploring</div>
-          </div>
-          <div class="orbit"></div>
-          <div class="center">YOUR<br>CLUTCH</div>
-          <div class="float-card f1">🎤 MUNs<small>Speak. Debate. Lead.</small></div>
-          <div class="float-card f2">💼 Internships<small>Get real experience.</small></div>
-          <div class="float-card f3">🏆 Competitions<small>Challenge yourself.</small></div>
-          <div class="float-card f4">🌱 Volunteering<small>Create an impact.</small></div>
+
+        <h1>
+
+          Your world.<br>
+
+          Your
+          <em>opportunities.</em>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+          StudentClutch.co is an independent platform
+          helping students discover opportunities,
+          experiences, communities and ways to turn
+          their ideas into action.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+          <a
+            href="#explore"
+            class="button button-primary"
+          >
+            Explore StudentClutch →
+          </a>
+
+
+          <a
+            href="#about"
+            class="button button-secondary"
+          >
+            Learn More
+          </a>
+
         </div>
+
       </div>
+
     </section>
 
-    <section id="explore">
+
+
+    <!-- =========================
+         EXPLORE
+    ========================= -->
+
+    <section
+      class="destinations"
+      id="explore"
+    >
+
       <div class="container">
-        <div class="section-head">
-          <div>
-            <div class="kicker">Explore</div>
-            <h2>There is more to student life.</h2>
-          </div>
-          <p>Find experiences that help you learn what you enjoy, what you are good at, and where you want to go.</p>
+
+
+        <div class="section-heading">
+
+          <small>
+            Explore StudentClutch
+          </small>
+
+          <h2>
+            Something for every kind of student.
+          </h2>
+
         </div>
-        <div class="cards">
-          <div class="card"><div class="icon">🎤</div><h3>MUNs & Conferences</h3><p>Debate ideas, represent countries, meet people and sharpen your communication.</p></div>
-          <div class="card"><div class="icon">💼</div><h3>Internships</h3><p>Discover opportunities that let you turn classroom knowledge into practical experience.</p></div>
-          <div class="card"><div class="icon">🏆</div><h3>Competitions</h3><p>Put your skills to the test through case competitions, challenges and student contests.</p></div>
-          <div class="card"><div class="icon">🧠</div><h3>Workshops</h3><p>Learn from practitioners and build skills you can actually use.</p></div>
-          <div class="card"><div class="icon">🌱</div><h3>Volunteering</h3><p>Find ways to contribute, collaborate and create meaningful impact.</p></div>
-          <div class="card"><div class="icon">🤝</div><h3>Communities</h3><p>Connect with students who are curious, ambitious and building something of their own.</p></div>
+
+
+
+        <div class="destination-grid">
+
+
+          <!-- STUDENTCLUTCH -->
+
+          <a
+            href="studentclutch.html"
+            class="destination"
+          >
+
+            <div>
+
+              <div class="number">
+                01
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <div class="circle"></div>
+
+              <h3>
+                StudentClutch
+              </h3>
+
+              <p>
+
+                Discover opportunities,
+                initiatives, competitions,
+                workshops and experiences
+                built around student growth.
+
+              </p>
+
+              <div class="destination-link">
+
+                Explore platform →
+
+              </div>
+
+            </div>
+
+          </a>
+
+
+
+          <!-- NAVRITI -->
+
+          <a
+            href="navriti-mun.html"
+            class="destination"
+          >
+
+            <div>
+
+              <div class="number">
+                02
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <div class="circle"></div>
+
+              <h3>
+                Navriti MUN
+              </h3>
+
+              <p>
+
+                Step into debate, diplomacy,
+                research and public speaking
+                through the StudentClutch MUN
+                experience.
+
+              </p>
+
+              <div class="destination-link">
+
+                Explore Navriti →
+
+              </div>
+
+            </div>
+
+          </a>
+
+
+
+          <!-- MUCOMMUNIQUE -->
+
+          <a
+            href="mucommunique.html"
+            class="destination"
+          >
+
+            <div>
+
+              <div class="number">
+                03
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <div class="circle"></div>
+
+              <h3>
+                MUcomMUNique
+              </h3>
+
+              <p>
+
+                A student conference experience
+                designed around discussion,
+                ideas, collaboration and leadership.
+
+              </p>
+
+              <div class="destination-link">
+
+                Explore MUcomMUNique →
+
+              </div>
+
+            </div>
+
+          </a>
+
+
         </div>
+
       </div>
+
     </section>
 
-    <section class="journey" id="journey">
-      <div class="container journey-grid">
-        <div>
-          <div class="kicker">The StudentClutch way</div>
-          <h2>Don't just choose a career. Explore it.</h2>
-          <p style="margin-top:18px">Your professional identity is built through experiences. Start small, try things, meet people and keep discovering.</p>
-        </div>
-        <div class="steps">
-          <div class="step"><div class="num">01</div><div><h3>Discover</h3><p>Find opportunities and experiences that match your interests.</p></div></div>
-          <div class="step"><div class="num">02</div><div><h3>Participate</h3><p>Step outside your comfort zone and actually get involved.</p></div></div>
-          <div class="step"><div class="num">03</div><div><h3>Build</h3><p>Turn experiences into skills, projects and stories worth sharing.</p></div></div>
-          <div class="step"><div class="num">04</div><div><h3>Connect</h3><p>Meet peers, mentors and communities that open new doors.</p></div></div>
-        </div>
-      </div>
-    </section>
 
-    <section class="events" id="events">
-      <div class="container">
-        <div class="section-head">
-          <div><div class="kicker">What's happening</div><h2>Step into the room.</h2></div>
-          <p>Keep an eye on StudentClutch events and experiences designed to get students moving.</p>
-        </div>
-        <div class="event-grid">
-          <article class="event">
-            <div class="event-banner"><span class="tag">MUN</span><b>StudentClutch MUN</b></div>
-            <div class="event-body"><p>A platform for students to debate, negotiate and lead.</p><a class="event-link" href="#join">Register your interest →</a></div>
-          </article>
-          <article class="event">
-            <div class="event-banner yellow"><span class="tag">WORKSHOP</span><b>Skill Sessions</b></div>
-            <div class="event-body"><p>Practical sessions built around skills students need beyond college.</p><a class="event-link" href="#join">Stay updated →</a></div>
-          </article>
-          <article class="event">
-            <div class="event-banner mint"><span class="tag">COMMUNITY</span><b>Student Connect</b></div>
-            <div class="event-body"><p>Meet students, exchange ideas and discover new possibilities.</p><a class="event-link" href="#join">Join the community →</a></div>
-          </article>
-        </div>
-      </div>
-    </section>
 
-    <section id="about">
+    <!-- =========================
+         ABOUT
+    ========================= -->
+
+    <section
+      class="about"
+      id="about"
+    >
+
       <div class="container about-grid">
-        <div class="about-box">
-          <div class="kicker">StudentClutch</div>
-          <h3>Because figuring yourself out is part of the journey.</h3>
-        </div>
-        <div class="about-copy">
-          <div class="kicker">Our idea</div>
-          <h2>Build experiences. Not just a CV.</h2>
-          <p>StudentClutch is an independent student platform created to make it easier to discover meaningful opportunities and take the first step.</p>
-          <p>Whether you want to speak on a stage, compete, volunteer, intern, learn something new or meet your next collaborator — there is always somewhere to start.</p>
-          <div class="stats">
-            <div class="stat"><b>01</b><span>Discover</span></div>
-            <div class="stat"><b>02</b><span>Experience</span></div>
-            <div class="stat"><b>03</b><span>Grow</span></div>
+
+
+        <div>
+
+          <div class="label">
+            01 — About
           </div>
+
+          <h2>
+
+            Students shouldn't
+            have to search
+            everywhere.
+
+          </h2>
+
         </div>
+
+
+        <div class="about-copy">
+
+          <p>
+
+            There are thousands of ways for students
+            to learn, participate, compete, create
+            and lead — but finding the right one
+            can be difficult.
+
+          </p>
+
+
+          <br>
+
+
+          <p>
+
+            <span class="highlight">
+              StudentClutch.co
+            </span>
+
+            brings these possibilities together
+            in one student-focused ecosystem,
+            making it easier to discover
+            what comes next.
+
+          </p>
+
+        </div>
+
+
       </div>
+
     </section>
 
-    <section class="cta" id="join">
+
+
+    <!-- =========================
+         WHY STUDENTCLUTCH
+    ========================= -->
+
+    <section
+      class="values"
+      id="why"
+    >
+
       <div class="container">
-        <div class="cta-box">
-          <div>
-            <h2>Your next opportunity could start here.</h2>
-            <p>Follow StudentClutch for events, opportunities, student stories and everything happening in the community.</p>
+
+
+        <div class="values-heading">
+
+          <div class="label">
+            02 — The idea
           </div>
-          <a class="primary" href="https://instagram.com/studentclutch.co" target="_blank" rel="noopener">Follow on Instagram ↗</a>
+
+          <h2>
+
+            Discover something.
+            Do something.
+            Become something.
+
+          </h2>
+
         </div>
+
+
+
+        <div class="values-grid">
+
+
+          <div class="value">
+
+            <div class="value-icon">
+              01
+            </div>
+
+            <h3>
+              Discover
+            </h3>
+
+            <p>
+
+              Find opportunities and experiences
+              that match your interests
+              and ambitions.
+
+            </p>
+
+          </div>
+
+
+
+          <div class="value">
+
+            <div class="value-icon">
+              02
+            </div>
+
+            <h3>
+              Experience
+            </h3>
+
+            <p>
+
+              Participate in real events,
+              competitions, conferences,
+              workshops and initiatives.
+
+            </p>
+
+          </div>
+
+
+
+          <div class="value">
+
+            <div class="value-icon">
+              03
+            </div>
+
+            <h3>
+              Build
+            </h3>
+
+            <p>
+
+              Create projects, lead initiatives
+              and build meaningful connections
+              with other students.
+
+            </p>
+
+          </div>
+
+
+        </div>
+
       </div>
+
     </section>
+
+
+
+    <!-- =========================
+         CTA
+    ========================= -->
+
+    <section class="cta">
+
+      <div class="container">
+
+        <div class="cta-box">
+
+          <h2>
+
+            Find what you want
+            to do next.
+
+          </h2>
+
+
+          <p>
+
+            Explore the StudentClutch ecosystem
+            and discover experiences designed
+            to help you learn, participate
+            and build.
+
+          </p>
+
+
+          <a
+            href="studentclutch.html"
+            class="cta-button"
+          >
+
+            Enter StudentClutch →
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
   </main>
 
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
   <footer>
+
     <div class="container footer-inner">
+
+
       <div>
-        <a class="logo" href="#"><div class="logo-mark">S</div>Student<span>Clutch</span></a>
-        <div class="footer-copy">© 2026 StudentClutch.co · Built for the next generation.</div>
+
+        <div class="logo">
+
+          student<span>clutch</span>.co
+
+        </div>
+
+        <div class="footer-note">
+
+          An independent platform for students.
+
+        </div>
+
       </div>
-      <div class="socials">
-        <a href="https://instagram.com/studentclutch.co" target="_blank" rel="noopener">Instagram</a>
-        <a href="#explore">Explore</a>
-        <a href="#about">About</a>
+
+
+      <div class="footer-links">
+
+        <a href="#about">
+          About
+        </a>
+
+        <a href="#explore">
+          Explore
+        </a>
+
+        <a href="studentclutch.html">
+          StudentClutch
+        </a>
+
+        <a href="navriti-mun.html">
+          Navriti MUN
+        </a>
+
       </div>
+
+
     </div>
+
   </footer>
+
 
 </body>
 </html>
-'''
-
-path = Path("/mnt/data/index.html")
-path.write_text(html, encoding="utf-8")
-print(f"Created: {path}")
