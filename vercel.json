@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/studentclutch",
+      "destination": "/studentclutch.html"
+    },
+    {
+      "source": "/navriti-mun",
+      "destination": "/navriti-mun.html"
+    },
+    {
+      "source": "/mucommunique",
+      "destination": "/mucommunique.html"
+    }
+  ]
+}
